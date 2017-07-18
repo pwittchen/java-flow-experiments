@@ -1,2 +1,2 @@
 # java-flow-experiments
-Experimenting with java.util.concurrent.flow API from Java 9 and Reactive Streams
+Experimenting with Reactive Streams, which are going to become part of the Java 9 in the java.util.concurrent.flow package.
