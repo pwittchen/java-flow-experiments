@@ -28,6 +28,7 @@ repositories {
 }
 
 dependencies {
+    compile 'org.reactivestreams:reactive-streams:1.0.1-RC2'
     compile 'io.reactivex.rxjava2:rxjava:2.1.1'
     compile 'io.projectreactor:reactor-core:3.0.7.RELEASE'
 
