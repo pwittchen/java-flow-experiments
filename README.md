@@ -1,5 +1,5 @@
 # java-flow-experiments
-In this repository, I'm experimenting with [Reactive Streams](http://www.reactive-streams.org), which are going to become part of the Java 9 in the `java.util.concurrent` package in Java 8 application and with native [Java 9 Reactive Streams](http://download.java.net/java/jdk9/docs/api/java/util/concurrent/Flow.html) as well.
+In this repository, I'm experimenting with [Reactive Streams](http://www.reactive-streams.org), which are going to become part of the Java 9 in the `java.util.concurrent` package in Java 8 application and with [native Java 9 Reactive Streams](http://download.java.net/java/jdk9/docs/api/java/util/concurrent/Flow.html) as well.
 
 Java 8 project
 --------------
