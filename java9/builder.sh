@@ -6,10 +6,10 @@ function showHelp() {
         for cleaning, building and running this Java 9 application
 
         Usage:
-          -c    cleans the project (removes 'out' directory)
+          -c    cleans the project (removes 'out/' directory)
           -b    builds (compiles) the project
           -r    runs the compiled project
-          -h    showing help
+          -h    shows help
         "
 }
 
