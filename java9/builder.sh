@@ -2,6 +2,8 @@
 
 export BUILDER_JVM_PATH="/usr/lib/jvm/java-9-oracle"
 export BUILDER_OUT_DIR="out/production/java9/"
+export BUILDER_SRC_FILE="src/com/github/pwittchen/Main.java"
+export BUILDER_MAIN_CLASS="com.github.pwittchen.Main"
 
 function showHelp() {
   echo "
@@ -22,13 +24,13 @@ function clean() {
 }
 
 function build() {
-  $BUILDER_JVM_PATH/bin/javac -d $BUILDER_OUT_DIR src/com/github/pwittchen/Main.java
+  $BUILDER_JVM_PATH/bin/javac -d $BUILDER_OUT_DIR $BUILDER_SRC_FILE
   echo "project was built"
 }
 
 function run() {
   echo "running the project:"
-  $BUILDER_JVM_PATH/bin/java -Dfile.encoding=UTF-8 -classpath $BUILDER_OUT_DIR com.github.pwittchen.Main
+  $BUILDER_JVM_PATH/bin/java -Dfile.encoding=UTF-8 -classpath $BUILDER_OUT_DIR $BUILDER_MAIN_CLASS
 }
 
 while getopts "hcbr" opt; do
