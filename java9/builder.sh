@@ -25,7 +25,7 @@ function build() {
 
 function run() {
   echo "running the project:"
-  /usr/lib/jvm/java-9-oracle/bin/java -Dfile.encoding=UTF-8 -classpath ./out/production/java9 com.github.pwittchen.Main
+  /usr/lib/jvm/java-9-oracle/bin/java -Dfile.encoding=UTF-8 -classpath out/production/java9 com.github.pwittchen.Main
 }
 
 while getopts "hcbr" opt; do
