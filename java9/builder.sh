@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+export BUILDER_JVM_PATH="/usr/lib/jvm/java-9-oracle"
+
 function showHelp() {
   echo "
         builder.sh is a simple shell script responsible
@@ -19,13 +21,13 @@ function clean() {
 }
 
 function build() {
-  /usr/lib/jvm/java-9-oracle/bin/javac -d out/production/java9/ src/com/github/pwittchen/Main.java
+  $BUILDER_JVM_PATH/bin/javac -d out/production/java9/ src/com/github/pwittchen/Main.java
   echo "project was built"
 }
 
 function run() {
   echo "running the project:"
-  /usr/lib/jvm/java-9-oracle/bin/java -Dfile.encoding=UTF-8 -classpath out/production/java9 com.github.pwittchen.Main
+  $BUILDER_JVM_PATH/bin/java -Dfile.encoding=UTF-8 -classpath out/production/java9 com.github.pwittchen.Main
 }
 
 while getopts "hcbr" opt; do
