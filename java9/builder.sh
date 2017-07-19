@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 export BUILDER_JVM_PATH="/usr/lib/jvm/java-9-oracle"
+export BUILDER_OUT_DIR="out/production/java9/"
 
 function showHelp() {
   echo "
@@ -16,18 +17,18 @@ function showHelp() {
 }
 
 function clean() {
-  rm -rf out/
+  rm -rf $BUILDER_OUT_DIR
   echo "project was cleaned"
 }
 
 function build() {
-  $BUILDER_JVM_PATH/bin/javac -d out/production/java9/ src/com/github/pwittchen/Main.java
+  $BUILDER_JVM_PATH/bin/javac -d $BUILDER_OUT_DIR src/com/github/pwittchen/Main.java
   echo "project was built"
 }
 
 function run() {
   echo "running the project:"
-  $BUILDER_JVM_PATH/bin/java -Dfile.encoding=UTF-8 -classpath out/production/java9 com.github.pwittchen.Main
+  $BUILDER_JVM_PATH/bin/java -Dfile.encoding=UTF-8 -classpath $BUILDER_OUT_DIR com.github.pwittchen.Main
 }
 
 while getopts "hcbr" opt; do
