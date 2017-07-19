@@ -6,4 +6,4 @@ Inside `java8` directory, I'm playing with two implementations of Reactive Strea
 - [RxJava2](https://github.com/ReactiveX/RxJava)
 
 In addition, inside `java9` directory I'm playing with native Java 9 Reactive Streams interfaces.
-Please note, in this setup, `java9/build.sh` script may not work in your environment. You can import this project to IntelliJ IDEA, set Java 9 as default JDK and it should work. I haven't used Gradle for Java 9 because Gradle support for Java9 is still in progress right now.
+In this setup, you need to have installed Java 9 from Oracle in the following path: `/usr/lib/jvm/java-9-oracle/` (it was tested under Ubuntu Linux 16.04).
