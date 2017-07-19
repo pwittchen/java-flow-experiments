@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-/usr/lib/jvm/java-9-oracle/bin/java -javaagent:$HOME/.local/share/JetBrains/Toolbox/apps/IDEA-U/ch-0/171.4694.70/lib/idea_rt.jar=35812:/$HOME/.local/share/JetBrains/Toolbox/apps/IDEA-U/ch-0/171.4694.70/bin -Dfile.encoding=UTF-8 -classpath /home/piotr/Development/jvm/projects/private/java-flow-experiments/java9/out/production/java9 com.github.pwittchen.Main
+/usr/lib/jvm/java-9-oracle/bin/javac -d out/production/java9/ src/com/github/pwittchen/Main.java
