@@ -14,4 +14,4 @@ Java 9 project
 --------------
 
 Inside `java9` directory I'm playing with native Java 9 Reactive Streams interfaces.
-In this setup, you need to have installed Java 9 from Oracle in the following path: `/usr/lib/jvm/java-9-oracle/` (it was tested under Ubuntu Linux 16.04). Please use `java9/builder.sh` script to clean, compile and run the application. Call `./builder.sh -h` for help. You can also import this project in IntelliJ IDEA and do the same through IntelliJ IDEA.
+In this setup, you need to have installed Java 9 from Oracle in the following path: `/usr/lib/jvm/java-9-oracle/` (it was tested under Ubuntu Linux 16.04 LTS). Please use `java9/builder.sh` script to clean, compile and run the application. Call `./builder.sh -h` for help. You can also import this project in IntelliJ IDEA and do the same through IntelliJ IDEA.
