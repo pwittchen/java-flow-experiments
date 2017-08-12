@@ -47,7 +47,7 @@ class Pipe implements Flow.Publisher {
   }
 
   public Pipe filter(Predicate predicate) {
-    this.stream = stream.filter(predicate);
+    stream = stream.filter(predicate);
     return this;
   }
 
