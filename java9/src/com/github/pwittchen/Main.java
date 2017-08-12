@@ -56,9 +56,11 @@ class Pipe implements Flow.Publisher {
   }
 }
 
-interface Receiver extends Flow.Subscriber {
+@FunctionalInterface interface Receiver extends Flow.Subscriber {
   default void onSubscribe(Flow.Subscription subscription) {
   }
+
+  @Override void onNext(Object item);
 
   default void onError(Throwable throwable) {
     throwable.printStackTrace();
