@@ -61,6 +61,7 @@ interface Receiver extends Flow.Subscriber {
   }
 
   default void onError(Throwable throwable) {
+    throwable.printStackTrace();
   }
 
   default void onComplete() {
