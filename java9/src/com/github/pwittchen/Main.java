@@ -1,12 +1,13 @@
 package com.github.pwittchen;
 
 import java.util.concurrent.Flow;
+import java.util.stream.IntStream;
 
 public class Main {
   public static void main(String[] args) {
 
     Flow.Publisher<Integer> publisher = subscriber -> {
-      subscriber.onNext(7);
+      IntStream.range(1, 11).forEach(subscriber::onNext);
       subscriber.onComplete();
     };
 
