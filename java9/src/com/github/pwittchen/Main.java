@@ -1,7 +1,9 @@
 package com.github.pwittchen;
 
 import java.util.concurrent.Flow;
+import java.util.function.Predicate;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class Main {
   public static void main(String[] args) {
@@ -28,5 +30,39 @@ public class Main {
         System.out.println("onComplete");
       }
     });
+
+    new Pipe()
+        .of(Stream.of(1, 2, 3, 4, 5, 6))
+        .filter(o -> (Integer) o % 2 == 0)
+        .subscribe((Receiver) System.out::println);
+  }
+}
+
+class Pipe implements Flow.Publisher {
+  private Stream stream;
+
+  public Pipe of(Stream stream) {
+    this.stream = stream;
+    return this;
+  }
+
+  public Pipe filter(Predicate predicate) {
+    this.stream = stream.filter(predicate);
+    return this;
+  }
+
+  @Override public void subscribe(Flow.Subscriber subscriber) {
+    stream.forEach(o -> System.out.println(o.toString()));
+  }
+}
+
+interface Receiver extends Flow.Subscriber {
+  default void onSubscribe(Flow.Subscription subscription) {
+  }
+
+  default void onError(Throwable throwable) {
+  }
+
+  default void onComplete() {
   }
 }
