@@ -2,7 +2,6 @@ package com.github.pwittchen.java.flow.experiments;
 
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
 import io.reactivex.ObservableTransformer;
 import io.reactivex.Scheduler;
 import io.reactivex.schedulers.Schedulers;
@@ -16,9 +15,6 @@ import reactor.core.publisher.Flux;
 //TODO: move code below to the separate unit tests
 //TODO: create appropriate Gradle tasks to run single unit tests without remembering package name
 public class Main {
-
-  private static long startTime;
-  private static long endTime;
 
   public static void main(String args[]) {
 
@@ -56,10 +52,13 @@ public class Main {
   }
 
   private static <T> ObservableTransformer<T, T> applyBenchmark() {
-    return upstream -> upstream.doOnSubscribe(disposable -> startTime = System.currentTimeMillis())
+    // if we want to use local variable for transformer, it needs to be an array
+    final long[] executionTime = new long[2];
+    return upstream -> upstream
+        .doOnSubscribe(disposable -> executionTime[0] = System.currentTimeMillis())
         .doOnComplete(() -> {
-          endTime = System.currentTimeMillis();
-          long computationTime = (endTime - startTime) / 1000;
+          executionTime[1] = System.currentTimeMillis();
+          long computationTime = (executionTime[1] - executionTime[0]) / 1000;
           System.out.println(String.format("computed in %d seconds", computationTime));
         });
   }
