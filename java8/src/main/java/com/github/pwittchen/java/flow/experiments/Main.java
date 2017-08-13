@@ -2,6 +2,8 @@ package com.github.pwittchen.java.flow.experiments;
 
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.ObservableTransformer;
 import io.reactivex.Scheduler;
 import io.reactivex.schedulers.Schedulers;
 import java.time.LocalTime;
@@ -34,15 +36,16 @@ public class Main {
 
     Observable.range(1, 10)
         .doFinally(Main::sleepForAWhile)
-        .doOnSubscribe(disposable -> startTime = System.currentTimeMillis())
         .flatMap(integer -> Observable.just(integer)
             .subscribeOn(Schedulers.computation())
             .map(Main::intenseCalculation))
-        .doOnComplete(() -> {
-          endTime = System.currentTimeMillis();
-          long computationTime = (endTime - startTime) / 1000;
-          System.out.println(String.format("computed in %d seconds", computationTime));
-        })
+        //.doOnSubscribe(disposable -> startTime = System.currentTimeMillis())
+        //.doOnComplete(() -> {
+        //  endTime = System.currentTimeMillis();
+        //  long computationTime = (endTime - startTime) / 1000;
+        //  System.out.println(String.format("computed in %d seconds", computationTime));
+        //})
+        .compose(applyBenchmark())
         .subscribe(
             number -> {
               String format =
@@ -50,6 +53,15 @@ public class Main {
                       Thread.currentThread().getName());
               System.out.println(format);
             });
+  }
+
+  private static <T> ObservableTransformer<T, T> applyBenchmark() {
+    return upstream -> upstream.doOnSubscribe(disposable -> startTime = System.currentTimeMillis())
+        .doOnComplete(() -> {
+          endTime = System.currentTimeMillis();
+          long computationTime = (endTime - startTime) / 1000;
+          System.out.println(String.format("computed in %d seconds", computationTime));
+        });
   }
 
   private static void sleepForAWhile() {
