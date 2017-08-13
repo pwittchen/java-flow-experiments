@@ -2,8 +2,11 @@ package com.github.pwittchen.java.flow.experiments;
 
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
+import io.reactivex.Scheduler;
 import io.reactivex.schedulers.Schedulers;
 import java.time.LocalTime;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
 import org.reactivestreams.Publisher;
 import reactor.core.publisher.Flux;
@@ -22,10 +25,12 @@ public class Main {
     Publisher<Integer> publisher = s -> s.onNext(9);
 
     flux.mergeWith(flowable).mergeWith(publisher).subscribe(System.out::println);
-
     System.out.println();
-
     flowable.mergeWith(flux).sorted().subscribe(System.out::println);
+
+    int threads = Runtime.getRuntime().availableProcessors();
+    ExecutorService executorService = Executors.newFixedThreadPool(threads);
+    Scheduler scheduler = Schedulers.from(executorService);
 
     Observable.range(1, 10)
         .doFinally(Main::sleepForAWhile)
