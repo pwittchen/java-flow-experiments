@@ -18,6 +18,8 @@ In this setup, you need to have installed Java 9 from Oracle in the following pa
 
 References
 ----------
+- [Reactice Streams](http://www.reactive-streams.org/)
+- [Reactive Manifesto](https://www.reactivemanifesto.org/)
 - [Java 9 Reactive Streams](http://www.baeldung.com/java-9-reactive-streams)
 - [Reactive Programming with JDK 9 Flow API](https://community.oracle.com/docs/DOC-1006738)
 - [Flow Class JavaDoc](http://gee.cs.oswego.edu/dl/jsr166/dist/docs/java/util/concurrent/Flow.html)
