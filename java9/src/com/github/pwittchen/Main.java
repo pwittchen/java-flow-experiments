@@ -41,17 +41,18 @@ public class Main {
 class Pipe implements Flow.Publisher {
   private Stream stream;
 
-  public Pipe of(Stream stream) {
+  Pipe of(Stream stream) {
     this.stream = stream;
     return this;
   }
 
-  public Pipe filter(Predicate predicate) {
+  Pipe filter(Predicate predicate) {
     stream = stream.filter(predicate);
     return this;
   }
 
   @Override public void subscribe(Flow.Subscriber subscriber) {
+    //subscriber.onError(new RuntimeException("Ooops!"));
     stream.forEach(o -> System.out.println(o.toString()));
   }
 }
