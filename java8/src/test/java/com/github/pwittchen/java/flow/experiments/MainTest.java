@@ -59,7 +59,7 @@ public class MainTest {
         .doFinally(this::sleepForAWhile)
         .flatMap(integer -> Observable.just(integer)
             .subscribeOn(Schedulers.computation())
-            .map(this::intenseCalculation))
+            .map(this::simulateIntenseCalculation))
         .compose(applyBenchmarkWithAssertion(8))
         .subscribe(this::printNumberWithThreadInfo);
   }
@@ -72,7 +72,7 @@ public class MainTest {
     System.out.println(message);
   }
 
-  private <T> T intenseCalculation(T value) {
+  private <T> T simulateIntenseCalculation(T value) {
     sleep(ThreadLocalRandom.current().nextInt(3000));
     return value;
   }
