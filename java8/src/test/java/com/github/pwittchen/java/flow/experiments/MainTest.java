@@ -13,8 +13,10 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 import org.junit.Test;
@@ -127,6 +129,54 @@ public class MainTest {
   }
 
   @Test
+  public void shouldHandleErrors() {
+    //TODO: implement error handling sample
+  }
+
+  @Test
+  public void shouldObserveAndSubscribeOnMainThread() {
+    Observable.range(1, 10).map(i -> i * 100)
+        .doOnNext(i -> printNumberWithThreadInfo("emitting", i))
+        .map(i -> i * 10)
+        .subscribe(integer -> printNumberWithThreadInfo("received", integer));
+
+    sleep(3000);
+  }
+
+  @Test
+  public void shouldSubscribeOnComputationThreadAndObserveOnMainThread() {
+
+    final BlockingQueue<Runnable> tasks = new LinkedBlockingQueue<>();
+
+    Observable.range(1, 10).map(i -> i * 100)
+        .doOnNext(i -> printNumberWithThreadInfo("emitting", i))
+        .map(i -> i * 10)
+        .subscribeOn(Schedulers.computation())
+        .observeOn(Schedulers.from(tasks::add))
+        .subscribe(integer -> printNumberWithThreadInfo("received", integer));
+
+    try {
+      tasks.take().run();
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+
+    sleep(6000);
+  }
+
+  @Test
+  public void shouldSubscribeOnComputationThreadAndReceiveOnNewThread() {
+    Observable.range(1, 10).map(i -> i * 100)
+        .doOnNext(i -> printNumberWithThreadInfo("emitting", i))
+        .map(i -> i * 10)
+        .subscribeOn(Schedulers.computation())
+        .observeOn(Schedulers.newThread())
+        .subscribe(integer -> printNumberWithThreadInfo("received", integer));
+
+    sleep(6000);
+  }
+
+  @Test
   public void shouldPerformCalculationWithIoScheduler() {
     Observable.range(1, 10)
         .doFinally(this::sleepForAWhile)
@@ -134,7 +184,7 @@ public class MainTest {
             .subscribeOn(Schedulers.io())
             .map(this::simulateIntenseCalculation))
         .compose(applyBenchmarkWithAssertion(4))
-        .subscribe(this::printNumberWithThreadInfo);
+        .subscribe(integer -> printNumberWithThreadInfo("received", integer));
   }
 
   @Test
@@ -148,7 +198,7 @@ public class MainTest {
             .subscribeOn(scheduler)
             .map(this::simulateIntenseCalculation))
         .compose(applyBenchmarkWithAssertion(20))
-        .subscribe(this::printNumberWithThreadInfo);
+        .subscribe(integer -> printNumberWithThreadInfo("received", integer));
 
     sleepForAWhile();
   }
@@ -166,7 +216,7 @@ public class MainTest {
             .subscribeOn(scheduler)
             .map(this::simulateIntenseCalculation))
         .compose(applyBenchmarkWithAssertion(8))
-        .subscribe(this::printNumberWithThreadInfo);
+        .subscribe(integer -> printNumberWithThreadInfo("received", integer));
 
     sleepForAWhile();
   }
@@ -179,15 +229,15 @@ public class MainTest {
             .subscribeOn(Schedulers.computation())
             .map(this::simulateIntenseCalculation))
         .compose(applyBenchmarkWithAssertion(8))
-        .subscribe(this::printNumberWithThreadInfo);
+        .subscribe(integer -> printNumberWithThreadInfo("received", integer));
   }
 
-  private void printNumberWithThreadInfo(Integer number) {
-    final String format = "Received %d %s on thread %s";
+  private void printNumberWithThreadInfo(final String message, final Integer number) {
+    final String format = message.concat(" %d %s on thread %s");
     final String now = LocalTime.now().toString();
     final String currentThreadName = Thread.currentThread().getName();
-    final String message = String.format(format, number, now, currentThreadName);
-    System.out.println(message);
+    final String formattedMessage = String.format(format, number, now, currentThreadName);
+    System.out.println(formattedMessage);
   }
 
   private <T> T simulateIntenseCalculation(T value) {
