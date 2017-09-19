@@ -3,18 +3,23 @@ package com.github.pwittchen.java.flow.experiments;
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.ObservableTransformer;
+import io.reactivex.Scheduler;
 import io.reactivex.schedulers.Schedulers;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 import org.junit.Test;
 import reactor.core.publisher.Flux;
 
 import static com.google.common.truth.Truth.assertThat;
 
 public class MainTest {
+
   @Test
   public void shouldMergeStreamsFromDifferentApis() {
     // given
@@ -59,38 +64,35 @@ public class MainTest {
   @Test
   public void shouldPerformOneOperationAfterAnother() {
     // given
-    final List<String> operationsWithCallbacks = new ArrayList<>();
-    final List<String> operationsReactive = new ArrayList<>();
+    final List<String> list = new ArrayList<>();
 
     // when
 
     // with callbacks
 
     new Thread(() -> ((Callback) () -> {
-      operationsWithCallbacks.add("operation 1");
+      list.add("one");
       ((Callback) () -> {
-        operationsWithCallbacks.add("operation 2");
+        list.add("two");
         ((Callback) () -> {
-          operationsWithCallbacks.add("operation 3");
+          list.add("three");
         }).execute();
       }).execute();
     }).execute()).start();
 
+    final String stringWithCallbacks = list.stream().collect(Collectors.joining(" "));
+
     // reactive way
 
-    final Flowable<String> first = Flowable.fromCallable(() -> "operation 1");
-    final Flowable<String> second = Flowable.fromCallable(() -> "operation 2");
-    final Flowable<String> third = Flowable.fromCallable(() -> "operation 3");
+    final String stringReactive = Flowable.fromCallable(() -> "one")
+        .flatMap(name -> Flowable.fromCallable(() -> name.concat(" two")))
+        .flatMap(name -> Flowable.fromCallable(() -> name.concat(" three"))
+        ).blockingFirst();
 
-    first.flatMap(name -> {
-      operationsReactive.add(name);
-      return second;
-    }).flatMap(name -> {
-      operationsReactive.add(name);
-      return third;
-    }).subscribe(operationsReactive::add);
+    sleep(3000);
 
-    assertThat(operationsWithCallbacks).isEqualTo(operationsReactive);
+    // then
+    assertThat(stringWithCallbacks).isEqualTo(stringReactive);
   }
 
   @FunctionalInterface
@@ -99,18 +101,53 @@ public class MainTest {
   }
 
   @Test
-  public void shouldPerformCalculationWithIoScheduler() {
-    //TODO: implement
+  public void shouldPerformStreamOperation() {
+    //TODO: add a sample with complicated stream operation - ideally with imperative and reactive way
   }
 
   @Test
-  public void shouldPerformCalculationWithCustomSchedulerOnOneThread() {
-    //TODO: implement
+  public void shouldPerformCalculationWithIoScheduler() {
+    Observable.range(1, 10)
+        .doFinally(this::sleepForAWhile)
+        .flatMap(integer -> Observable.just(integer)
+            .subscribeOn(Schedulers.io())
+            .map(this::simulateIntenseCalculation))
+        .compose(applyBenchmarkWithAssertion(4))
+        .subscribe(this::printNumberWithThreadInfo);
+  }
+
+  @Test
+  public void shouldPerformCalculationWithCustomSchedulerInOneThread() {
+    final ExecutorService executorService = Executors.newFixedThreadPool(1);
+    final Scheduler scheduler = Schedulers.from(executorService);
+
+    Observable.range(1, 10)
+        .doFinally(this::sleepForAWhile)
+        .flatMap(integer -> Observable.just(integer)
+            .subscribeOn(scheduler)
+            .map(this::simulateIntenseCalculation))
+        .compose(applyBenchmarkWithAssertion(20))
+        .subscribe(this::printNumberWithThreadInfo);
+
+    sleepForAWhile();
   }
 
   @Test
   public void shouldPerformCalculationWithCustomSchedulerWithAllAvailableCores() {
-    //TODO: implement
+    final int threads = Runtime.getRuntime().availableProcessors();
+    final ExecutorService executorService = Executors.newFixedThreadPool(threads);
+    final Scheduler scheduler = Schedulers.from(executorService);
+
+    Observable.range(1, 10)
+        .doOnSubscribe(disposable -> System.out.println(String.format("using %d threads", threads)))
+        .doFinally(this::sleepForAWhile)
+        .flatMap(integer -> Observable.just(integer)
+            .subscribeOn(scheduler)
+            .map(this::simulateIntenseCalculation))
+        .compose(applyBenchmarkWithAssertion(8))
+        .subscribe(this::printNumberWithThreadInfo);
+
+    sleepForAWhile();
   }
 
   @Test
