@@ -34,6 +34,11 @@ public class MainTest {
   }
 
   @Test
+  public void shouldDoTheSameJobAsImperativeCodeInReactiveWay() {
+    //TODO: implement
+  }
+
+  @Test
   public void shouldPerformCalculationWithIoScheduler() {
     //TODO: implement
   }
@@ -56,22 +61,20 @@ public class MainTest {
             .subscribeOn(Schedulers.computation())
             .map(this::intenseCalculation))
         .compose(applyBenchmarkWithAssertion(8))
-        .subscribe(
-            number -> {
-              String format =
-                  String.format("Received %d %s on thread %s", number, LocalTime.now().toString(),
-                      Thread.currentThread().getName());
-              System.out.println(format);
-            });
+        .subscribe(this::printNumberWithThreadInfo);
+  }
+
+  private void printNumberWithThreadInfo(Integer number) {
+    final String format = "Received %d %s on thread %s";
+    final String now = LocalTime.now().toString();
+    final String currentThreadName = Thread.currentThread().getName();
+    final String message = String.format(format, number, now, currentThreadName);
+    System.out.println(message);
   }
 
   private <T> T intenseCalculation(T value) {
     sleep(ThreadLocalRandom.current().nextInt(3000));
     return value;
-  }
-
-  private <T> ObservableTransformer<T, T> applyBenchmark() {
-    return applyBenchmarkWithAssertion(null);
   }
 
   private <T> ObservableTransformer<T, T> applyBenchmarkWithAssertion(
