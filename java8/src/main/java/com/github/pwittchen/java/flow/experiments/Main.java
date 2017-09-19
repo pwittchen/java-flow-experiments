@@ -4,12 +4,15 @@ import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.ObservableTransformer;
 import io.reactivex.Scheduler;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import java.time.LocalTime;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
 import org.reactivestreams.Publisher;
+import org.reactivestreams.Subscriber;
 import reactor.core.publisher.Flux;
 
 //TODO: move code below to the separate unit tests
@@ -49,6 +52,27 @@ public class Main {
                       Thread.currentThread().getName());
               System.out.println(format);
             });
+
+    Flowable<String> first = Flowable.fromCallable(() -> {
+      Thread.sleep(2000);
+      return "I need to be executed first";
+    });
+
+    Flowable<String> second = Flowable.fromCallable(() -> "I need to be executed later");
+
+    //first.flatMap(
+    //    s -> s.equals("I need to be executed first")
+    //        ? second
+    //        : Flowable.empty())
+    //    .subscribe(System.out::println);
+
+    first.flatMap(
+        s -> s.equals("I need to be executed first")
+            ? Flowable.fromCallable(() -> "I'm using data from the first Flowable: ".concat(s))
+            : Flowable.empty())
+        .subscribe(System.out::println);
+
+    //Flowable.concat(first, second).subscribe(System.out::println);
   }
 
   private static <T> ObservableTransformer<T, T> applyBenchmark() {
@@ -64,11 +88,7 @@ public class Main {
   }
 
   private static void sleepForAWhile() {
-    try {
-      Thread.sleep(10000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
+    sleep(10000);
   }
 
   public static <T> T intenseCalculation(T value) {
