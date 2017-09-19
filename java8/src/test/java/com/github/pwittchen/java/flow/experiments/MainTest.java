@@ -20,6 +20,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 import org.junit.Test;
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
 import reactor.core.publisher.Flux;
 
 import static com.google.common.truth.Truth.assertThat;
@@ -43,7 +45,7 @@ public class MainTest {
   }
 
   @Test
-  public void shouldAddNumbersToListWithAkkaStreams() {
+  public void shouldAddNumbersToListWithAkkaStream() {
     // given
     List<Integer> expectedList = Arrays.asList(1, 2, 3, 4, 5);
     List<Integer> actualList = new ArrayList<>();
@@ -130,7 +132,27 @@ public class MainTest {
 
   @Test
   public void shouldHandleErrors() {
-    //TODO: implement error handling sample
+    final String message = "Ooops!";
+
+    Flowable<Object> flowableWithErrors = Flowable.fromCallable(() -> {
+      throw new RuntimeException(message);
+    });
+
+    flowableWithErrors.subscribe(new Subscriber<Object>() {
+      @Override public void onSubscribe(Subscription s) {
+      }
+
+      @Override public void onNext(Object o) {
+      }
+
+      @Override public void onError(Throwable throwable) {
+        System.out.println(throwable.getMessage());
+        assertThat(throwable.getMessage()).isEqualTo(message);
+      }
+
+      @Override public void onComplete() {
+      }
+    });
   }
 
   @Test
