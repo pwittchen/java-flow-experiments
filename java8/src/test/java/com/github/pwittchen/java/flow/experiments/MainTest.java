@@ -23,14 +23,29 @@ public class MainTest {
     List<Integer> expectedResult = IntStream.range(1, 9).boxed().collect(Collectors.toList());
     List<Integer> actualResult = new ArrayList<>();
 
-    Flowable<Integer> flowable = Flowable.just(1, 2, 3, 4);
-    Flux<Integer> flux = Flux.just(5, 6, 7, 8);
+    Flowable<Integer> flowable = Flowable.just(1, 2, 3, 4);   // RxJava2
+    Flux<Integer> flux = Flux.just(5, 6, 7, 8);               // Project Reactor
 
     // when
     flowable.mergeWith(flux).sorted().subscribe(actualResult::add);
 
     // then
     assertThat(actualResult).isEqualTo(expectedResult);
+  }
+
+  @Test
+  public void shouldPerformCalculationWithIoScheduler() {
+    //TODO: implement
+  }
+
+  @Test
+  public void shouldPerformCalculationWithCustomSchedulerOnOneThread() {
+    //TODO: implement
+  }
+
+  @Test
+  public void shouldPerformCalculationWithCustomSchedulerWithAllAvailableCores() {
+    //TODO: implement
   }
 
   @Test
