@@ -1,12 +1,15 @@
 # java-flow-experiments
 In this repository, I'm experimenting with [Reactive Streams](http://www.reactive-streams.org), which are going to become part of the Java 9 in the `java.util.concurrent` package in Java 8 application and with [native Java 9 Reactive Streams](http://download.java.net/java/jdk9/docs/api/java/util/concurrent/Flow.html) as well.
 
+This is repository prepared before my talk titled **Get ready for java.util.concurrent.Flow!** during [JDD](http://jdd.org.pl) 2017 Conference in Kraków, Poland.
+
 Java 8 project
 --------------
 
 Inside `java8` directory, I'm playing with two implementations of Reactive Streams:
-- [Project Reactor](https://projectreactor.io/) (it's going to be included in Spring 5)
 - [RxJava2](https://github.com/ReactiveX/RxJava)
+- [Project Reactor](https://projectreactor.io/) (it's going to be included in Spring 5)
+- [Akka Stream](https://github.com/akka/akka/tree/master/akka-stream)
 
 Projects inside `java8` directory can be cleaned, compiled and run via Gradle Wrapper.
 
