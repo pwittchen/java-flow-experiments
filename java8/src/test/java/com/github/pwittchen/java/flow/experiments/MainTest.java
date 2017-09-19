@@ -1,5 +1,9 @@
 package com.github.pwittchen.java.flow.experiments;
 
+import akka.NotUsed;
+import akka.actor.ActorSystem;
+import akka.stream.ActorMaterializer;
+import akka.stream.javadsl.Source;
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.ObservableTransformer;
@@ -34,6 +38,23 @@ public class MainTest {
 
     // then
     assertThat(actualResult).isEqualTo(expectedResult);
+  }
+
+  @Test
+  public void shouldAddNumbersToListWithAkkaStreams() {
+    // given
+    List<Integer> expectedList = Arrays.asList(1, 2, 3, 4, 5);
+    List<Integer> actualList = new ArrayList<>();
+
+    // when
+    final ActorSystem actorSystem = ActorSystem.create();
+    final ActorMaterializer materializer = ActorMaterializer.create(actorSystem);
+    final Source<Integer, NotUsed> source = Source.range(1, 5);
+
+    source.runForeach(actualList::add, materializer);
+
+    // then
+    assertThat(expectedList).isEqualTo(actualList);
   }
 
   @Test
