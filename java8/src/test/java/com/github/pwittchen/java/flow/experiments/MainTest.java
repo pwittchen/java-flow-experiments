@@ -57,6 +57,8 @@ public class MainTest {
 
     source.runForeach(actualList::add, materializer);
 
+    sleep(3000);
+
     // then
     assertThat(expectedList).isEqualTo(actualList);
   }
