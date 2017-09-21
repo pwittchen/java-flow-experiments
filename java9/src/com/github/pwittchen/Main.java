@@ -34,7 +34,7 @@ public class Main {
     new Pipe()
         .of(Stream.of(1, 2, 3, 4, 5, 6))
         .filter(o -> (Integer) o % 2 == 0)
-        .subscribe((Receiver) System.out::println);
+        .subscribe((Consumer) System.out::println);
   }
 }
 
@@ -56,7 +56,7 @@ class Pipe implements Flow.Publisher {
   }
 }
 
-@FunctionalInterface interface Receiver extends Flow.Subscriber {
+@FunctionalInterface interface Consumer extends Flow.Subscriber {
   default void onSubscribe(Flow.Subscription subscription) {
   }
 
