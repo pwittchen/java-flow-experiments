@@ -3,7 +3,7 @@ In this repository, I'm experimenting with [Reactive Streams](http://www.reactiv
 
 This repository is prepared for my talk titled **Get ready for java.util.concurrent.Flow!** 
 
-during [JDD](http://jdd.org.pl) 2017 Conference in Kraków, Poland.
+during [JDD](http://jdd.org.pl) 2017 Conference on 03.10.2017 in Kraków, Poland.
 
 Java 8 project
 --------------
