@@ -12,12 +12,15 @@ import io.reactivex.schedulers.Schedulers;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import org.junit.Test;
 import org.reactivestreams.Subscriber;
@@ -129,8 +132,35 @@ public class MainTest {
   }
 
   @Test
-  public void shouldPerformStreamOperation() {
-    //TODO: add a sample with complicated stream operation - ideally with imperative and reactive way
+  public void shouldTransformStream() {
+    // given
+
+    Map<Integer, String> numbersWithWords = new HashMap<Integer, String>() {{
+      put(1, "one");
+      put(2, "two");
+      put(3, "three");
+      put(4, "four");
+      put(5, "five");
+      put(6, "six");
+      put(7, "seven");
+      put(8, "eight");
+      put(9, "nine");
+      put(10, "ten");
+    }};
+
+    // when
+
+    String string = Flowable
+        .fromArray(1, 2, 3, 4, 5)
+        .flatMap(integer -> Flowable.just(integer * 2))
+        .map(numbersWithWords::get)
+        .throttleWithTimeout(1, TimeUnit.SECONDS)
+        .lastElement()
+        .blockingGet();
+
+    // then
+
+    assertThat(string).isEqualTo("ten");
   }
 
   @Test
