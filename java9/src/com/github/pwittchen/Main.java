@@ -52,8 +52,7 @@ class Pipe implements Flow.Publisher {
   }
 
   @Override public void subscribe(Flow.Subscriber subscriber) {
-    //subscriber.onError(new RuntimeException("Ooops!"));
-    stream.forEach(o -> System.out.println(o.toString()));
+    stream.forEach(subscriber::onNext);
   }
 }
 
