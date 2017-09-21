@@ -92,6 +92,7 @@ public class MainTest {
   public void shouldPerformOneOperationAfterAnother() {
     // given
     final List<String> list = new ArrayList<>();
+    final String[] stringWithCallbacks = new String[1];
 
     // when
 
@@ -103,23 +104,23 @@ public class MainTest {
         list.add("two");
         ((Callback) () -> {
           list.add("three");
+          stringWithCallbacks[0] = list.stream().collect(Collectors.joining(" "));
         }).execute();
       }).execute();
     }).execute()).start();
 
-    final String stringWithCallbacks = list.stream().collect(Collectors.joining(" "));
-
     // reactive way
 
-    final String stringReactive = Flowable.fromCallable(() -> "one")
+    final String stringReactive = Flowable
+        .fromCallable(() -> "one")
         .flatMap(name -> Flowable.fromCallable(() -> name.concat(" two")))
-        .flatMap(name -> Flowable.fromCallable(() -> name.concat(" three"))
-        ).blockingFirst();
+        .flatMap(name -> Flowable.fromCallable(() -> name.concat(" three")))
+        .blockingFirst();
 
     sleep(3000);
 
     // then
-    assertThat(stringWithCallbacks).isEqualTo(stringReactive);
+    assertThat(stringWithCallbacks[0]).isEqualTo(stringReactive);
   }
 
   @FunctionalInterface
@@ -164,7 +165,8 @@ public class MainTest {
 
   @Test
   public void shouldObserveAndSubscribeOnMainThread() {
-    Observable.range(1, 10).map(i -> i * 100)
+    Observable.range(1, 10)
+        .map(i -> i * 100)
         .doOnNext(i -> printNumberWithThreadInfo("emitting", i))
         .map(i -> i * 10)
         .subscribe(integer -> printNumberWithThreadInfo("received", integer));
@@ -173,11 +175,25 @@ public class MainTest {
   }
 
   @Test
+  public void shouldSubscribeOnComputationThreadAndReceiveOnNewThread() {
+    Observable.range(1, 10)
+        .map(i -> i * 100)
+        .doOnNext(i -> printNumberWithThreadInfo("emitting", i))
+        .map(i -> i * 10)
+        .subscribeOn(Schedulers.computation())
+        .observeOn(Schedulers.newThread())
+        .subscribe(integer -> printNumberWithThreadInfo("received", integer));
+
+    sleep(6000);
+  }
+
+  @Test
   public void shouldSubscribeOnComputationThreadAndObserveOnMainThread() {
 
     final BlockingQueue<Runnable> tasks = new LinkedBlockingQueue<>();
 
-    Observable.range(1, 10).map(i -> i * 100)
+    Observable.range(1, 10)
+        .map(i -> i * 100)
         .doOnNext(i -> printNumberWithThreadInfo("emitting", i))
         .map(i -> i * 10)
         .subscribeOn(Schedulers.computation())
@@ -189,18 +205,6 @@ public class MainTest {
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
-
-    sleep(6000);
-  }
-
-  @Test
-  public void shouldSubscribeOnComputationThreadAndReceiveOnNewThread() {
-    Observable.range(1, 10).map(i -> i * 100)
-        .doOnNext(i -> printNumberWithThreadInfo("emitting", i))
-        .map(i -> i * 10)
-        .subscribeOn(Schedulers.computation())
-        .observeOn(Schedulers.newThread())
-        .subscribe(integer -> printNumberWithThreadInfo("received", integer));
 
     sleep(6000);
   }
