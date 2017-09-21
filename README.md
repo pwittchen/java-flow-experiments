@@ -13,7 +13,9 @@ Inside `java8` directory, I'm playing with two implementations of Reactive Strea
 - [Project Reactor](https://projectreactor.io/) (it's going to be included in Spring 5)
 - [Akka Stream](https://github.com/akka/akka/tree/master/akka-stream)
 
-Projects inside `java8` directory can be cleaned, compiled and run via Gradle Wrapper.
+Project inside `java8` directory can be cleaned, compiled and run via Gradle Wrapper.
+
+It contains only exploratory tests for different reactive libraries.
 
 Java 9 project
 --------------
