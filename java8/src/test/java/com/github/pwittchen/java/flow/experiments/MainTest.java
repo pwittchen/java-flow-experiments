@@ -165,7 +165,23 @@ public class MainTest {
 
   @Test
   public void shouldHandleBackpressure() {
-    //TODO: implement
+    Flowable<Integer> flowable = Flowable.fromArray(1, 2, 3, 4, 5, 6);
+
+    flowable
+        .onBackpressureBuffer()
+        .subscribe(System.out::println);
+
+    System.out.println();
+
+    flowable
+        .onBackpressureLatest()
+        .subscribe(System.out::println);
+
+    System.out.println();
+
+    flowable
+        .onBackpressureDrop()
+        .subscribe(System.out::println);
   }
 
   @Test
