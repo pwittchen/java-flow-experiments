@@ -5,6 +5,11 @@ This repository is prepared for my talk titled **Get ready for java.util.concurr
 
 during [JDD](http://jdd.org.pl) 2017 Conference on 03.10.2017 in Kraków, Poland.
 
+Presentation slides
+-------------------
+
+Presentation slides will be published at: https://speakerdeck.com/pwittchen
+
 Java 8 project
 --------------
 
