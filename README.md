@@ -39,6 +39,7 @@ References
 - [Catching up RxJava with Java 9 Flow API](https://medium.com/@teachpendant/catching-up-rxjava-with-java-9-flow-api-b2e19ec40270)
 - [Java 9 (Part 5): Flow With the New Reactive Streams, First Look](https://dzone.com/articles/java-9-tutorial-flow-with-the-new-reactive-streams)
 - [Java 9 Flow API: asynchronous integer range source](http://akarnokd.blogspot.com/2017/03/java-9-flow-api-asynchronous-integer.html)
+- [5 not so obvious things about RxJava](https://medium.com/@jagsaund/5-not-so-obvious-things-about-rxjava-c388bd19efbc)
 - Reactive Streams implementations
   - [RxJava2](https://github.com/ReactiveX/RxJava)
   - [Project Reactor](https://projectreactor.io/)
