@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+# if your JVM path is different, change it below
 export BUILDER_JVM_PATH="/usr/lib/jvm/java-9-oracle"
 export BUILDER_OUT_DIR="out/production/java9/"
 export BUILDER_SRC_FILE="src/com/github/pwittchen/Main.java"
