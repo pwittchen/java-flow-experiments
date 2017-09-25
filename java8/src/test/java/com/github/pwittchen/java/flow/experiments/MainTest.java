@@ -126,11 +126,6 @@ public class MainTest {
     assertThat(stringWithCallbacks[0]).isEqualTo(stringReactive);
   }
 
-  @FunctionalInterface
-  private interface Callback {
-    void execute();
-  }
-
   @Test
   public void shouldTransformStream() {
     // given
@@ -354,5 +349,10 @@ public class MainTest {
     } catch (final InterruptedException e) {
       e.printStackTrace();
     }
+  }
+
+  @FunctionalInterface
+  private interface Callback {
+    void execute();
   }
 }
