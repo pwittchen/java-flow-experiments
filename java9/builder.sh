@@ -3,7 +3,7 @@
 # if your JVM path is different, change it below
 
 if [ `uname` = "Darwin" ]; then
-  export BUILDER_JVM_PATH="/Library/Java/JavaVirtualMachines/jdk1.9.0.jdk/Contents/Home"
+  export BUILDER_JVM_PATH="/Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home"
 fi
 
 if [ `uname` = "Linux" ]; then
