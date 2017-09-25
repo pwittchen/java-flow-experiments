@@ -5,10 +5,24 @@ import java.util.function.Predicate;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-public class Main {
-  public static void main(String[] args) {
+@FunctionalInterface interface Consumer extends Flow.Subscriber {
+  default void onSubscribe(Flow.Subscription subscription) {
+  }
 
-    Flow.Publisher<Integer> publisher = subscriber -> {
+  @Override void onNext(Object item);
+
+  default void onError(final Throwable throwable) {
+    throwable.printStackTrace();
+  }
+
+  default void onComplete() {
+  }
+}
+
+public class Main {
+  public static void main(final String[] args) {
+
+    final Flow.Publisher<Integer> publisher = subscriber -> {
       IntStream.range(1, 11).forEach(subscriber::onNext);
       subscriber.onComplete();
     };
@@ -18,11 +32,11 @@ public class Main {
         System.out.println("onSubscribe");
       }
 
-      @Override public void onNext(Integer item) {
+      @Override public void onNext(final Integer item) {
         System.out.println("onNext: ".concat(item.toString()));
       }
 
-      @Override public void onError(Throwable throwable) {
+      @Override public void onError(final Throwable throwable) {
         System.out.println("onError: ".concat(throwable.getMessage()));
       }
 
@@ -41,31 +55,17 @@ public class Main {
 class Pipe implements Flow.Publisher {
   private Stream stream;
 
-  Pipe of(Stream stream) {
+  Pipe of(final Stream stream) {
     this.stream = stream;
     return this;
   }
 
-  Pipe filter(Predicate predicate) {
+  Pipe filter(final Predicate predicate) {
     stream = stream.filter(predicate);
     return this;
   }
 
-  @Override public void subscribe(Flow.Subscriber subscriber) {
+  @Override public void subscribe(final Flow.Subscriber subscriber) {
     stream.forEach(subscriber::onNext);
-  }
-}
-
-@FunctionalInterface interface Consumer extends Flow.Subscriber {
-  default void onSubscribe(Flow.Subscription subscription) {
-  }
-
-  @Override void onNext(Object item);
-
-  default void onError(Throwable throwable) {
-    throwable.printStackTrace();
-  }
-
-  default void onComplete() {
   }
 }
