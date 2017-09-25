@@ -34,11 +34,11 @@ public class MainTest {
   @Test
   public void shouldMergeStreamsFromDifferentApis() {
     // given
-    List<Integer> expectedResult = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8);
-    List<Integer> actualResult = new ArrayList<>();
+    final List<Integer> expectedResult = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8);
+    final List<Integer> actualResult = new ArrayList<>();
 
-    Flowable<Integer> flowable = Flowable.just(1, 2, 3, 4);   // RxJava2
-    Flux<Integer> flux = Flux.just(5, 6, 7, 8);               // Project Reactor
+    final Flowable<Integer> flowable = Flowable.just(1, 2, 3, 4);   // RxJava2
+    final Flux<Integer> flux = Flux.just(5, 6, 7, 8);               // Project Reactor
 
     // when
     flowable.mergeWith(flux).sorted().subscribe(actualResult::add);
@@ -50,8 +50,8 @@ public class MainTest {
   @Test
   public void shouldAddNumbersToListWithAkkaStream() {
     // given
-    List<Integer> expectedList = Arrays.asList(1, 2, 3, 4, 5);
-    List<Integer> actualList = new ArrayList<>();
+    final List<Integer> expectedList = Arrays.asList(1, 2, 3, 4, 5);
+    final List<Integer> actualList = new ArrayList<>();
 
     // when
     final ActorSystem actorSystem = ActorSystem.create();
@@ -76,7 +76,7 @@ public class MainTest {
     // when
 
     // imperative way
-    for (Integer n : list) {
+    for (final Integer n : list) {
       if (n % 2 == 0) {
         evenNumbersImperative.add(n);
       }
@@ -135,7 +135,7 @@ public class MainTest {
   public void shouldTransformStream() {
     // given
 
-    Map<Integer, String> numbersWithWords = new HashMap<Integer, String>() {{
+    final Map<Integer, String> numbersWithWords = new HashMap<Integer, String>() {{
       put(1, "one");
       put(2, "two");
       put(3, "three");
@@ -150,7 +150,7 @@ public class MainTest {
 
     // when
 
-    String string = Flowable
+    final String string = Flowable
         .fromArray(1, 2, 3, 4, 5)
         .flatMap(integer -> Flowable.just(integer * 2))
         .map(numbersWithWords::get)
@@ -165,7 +165,7 @@ public class MainTest {
 
   @Test
   public void shouldHandleBackpressure() {
-    Flowable<Integer> flowable = Flowable.fromArray(1, 2, 3, 4, 5, 6);
+    final Flowable<Integer> flowable = Flowable.fromArray(1, 2, 3, 4, 5, 6);
 
     flowable
         .onBackpressureBuffer()
@@ -188,18 +188,18 @@ public class MainTest {
   public void shouldHandleErrors() {
     final String message = "Ooops!";
 
-    Flowable<Object> flowableWithErrors = Flowable.fromCallable(() -> {
+    final Flowable<Object> flowableWithErrors = Flowable.fromCallable(() -> {
       throw new RuntimeException(message);
     });
 
     flowableWithErrors.subscribe(new Subscriber<Object>() {
-      @Override public void onSubscribe(Subscription s) {
+      @Override public void onSubscribe(final Subscription s) {
       }
 
-      @Override public void onNext(Object o) {
+      @Override public void onNext(final Object o) {
       }
 
-      @Override public void onError(Throwable throwable) {
+      @Override public void onError(final Throwable throwable) {
         System.out.println(throwable.getMessage());
         assertThat(throwable.getMessage()).isEqualTo(message);
       }
@@ -248,7 +248,7 @@ public class MainTest {
 
     try {
       tasks.take().run();
-    } catch (InterruptedException e) {
+    } catch (final InterruptedException e) {
       e.printStackTrace();
     }
 
@@ -262,7 +262,7 @@ public class MainTest {
         .flatMap(integer -> Observable.just(integer)
             .subscribeOn(Schedulers.io())
             .map(this::simulateIntenseCalculation))
-        .compose(applyBenchmarkWithAssertion(4))
+        .compose(applyBenchmark())
         .subscribe(integer -> printNumberWithThreadInfo("received", integer));
   }
 
@@ -276,7 +276,7 @@ public class MainTest {
         .flatMap(integer -> Observable.just(integer)
             .subscribeOn(scheduler)
             .map(this::simulateIntenseCalculation))
-        .compose(applyBenchmarkWithAssertion(20))
+        .compose(applyBenchmark())
         .subscribe(integer -> printNumberWithThreadInfo("received", integer));
 
     sleepForAWhile();
@@ -294,7 +294,7 @@ public class MainTest {
         .flatMap(integer -> Observable.just(integer)
             .subscribeOn(scheduler)
             .map(this::simulateIntenseCalculation))
-        .compose(applyBenchmarkWithAssertion(8))
+        .compose(applyBenchmark())
         .subscribe(integer -> printNumberWithThreadInfo("received", integer));
 
     sleepForAWhile();
@@ -307,7 +307,7 @@ public class MainTest {
         .flatMap(integer -> Observable.just(integer)
             .subscribeOn(Schedulers.computation())
             .map(this::simulateIntenseCalculation))
-        .compose(applyBenchmarkWithAssertion(8))
+        .compose(applyBenchmark())
         .subscribe(integer -> printNumberWithThreadInfo("received", integer));
   }
 
@@ -319,9 +319,13 @@ public class MainTest {
     System.out.println(formattedMessage);
   }
 
-  private <T> T simulateIntenseCalculation(T value) {
+  private <T> T simulateIntenseCalculation(final T value) {
     sleep(ThreadLocalRandom.current().nextInt(3000));
     return value;
+  }
+
+  private <T> ObservableTransformer<T, T> applyBenchmark() {
+    return applyBenchmarkWithAssertion(null);
   }
 
   private <T> ObservableTransformer<T, T> applyBenchmarkWithAssertion(
@@ -332,7 +336,7 @@ public class MainTest {
         .doOnSubscribe(disposable -> executionTime[0] = System.currentTimeMillis())
         .doOnComplete(() -> {
           executionTime[1] = System.currentTimeMillis();
-          long computationTime = (executionTime[1] - executionTime[0]) / 1000;
+          final long computationTime = (executionTime[1] - executionTime[0]) / 1000;
           System.out.println(String.format("computed in %d seconds", computationTime));
           if (maxExpectedComputationTime != null) {
             assertThat(computationTime).isLessThan(maxExpectedComputationTime.longValue());
@@ -344,10 +348,10 @@ public class MainTest {
     sleep(10000);
   }
 
-  private void sleep(long millis) {
+  private void sleep(final long millis) {
     try {
       Thread.sleep(millis);
-    } catch (InterruptedException e) {
+    } catch (final InterruptedException e) {
       e.printStackTrace();
     }
   }
