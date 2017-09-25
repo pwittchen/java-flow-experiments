@@ -6,7 +6,7 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 @FunctionalInterface interface Consumer extends Flow.Subscriber {
-  default void onSubscribe(Flow.Subscription subscription) {
+  default void onSubscribe(final Flow.Subscription subscription) {
   }
 
   @Override void onNext(Object item);
@@ -28,7 +28,7 @@ public class Main {
     };
 
     publisher.subscribe(new Flow.Subscriber<>() {
-      @Override public void onSubscribe(Flow.Subscription subscription) {
+      @Override public void onSubscribe(final Flow.Subscription subscription) {
         System.out.println("onSubscribe");
       }
 
