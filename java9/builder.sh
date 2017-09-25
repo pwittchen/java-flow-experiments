@@ -1,7 +1,15 @@
 #!/usr/bin/env bash
 
 # if your JVM path is different, change it below
-export BUILDER_JVM_PATH="/usr/lib/jvm/java-9-oracle"
+
+if [ `uname` = "Darwin" ]; then
+  export BUILDER_JVM_PATH="/Library/Java/JavaVirtualMachines/jdk1.9.0.jdk/Contents/Home"
+fi
+
+if [ `uname` = "Linux" ]; then
+  export BUILDER_JVM_PATH="/usr/lib/jvm/java-9-oracle"
+fi
+
 export BUILDER_OUT_DIR="out/production/java9/"
 export BUILDER_SRC_FILE="src/com/github/pwittchen/Main.java"
 export BUILDER_MAIN_CLASS="com.github.pwittchen.Main"
@@ -23,16 +31,20 @@ function help() {
 function clean() {
   echo ":clean"
   rm -rf $BUILDER_OUT_DIR
+  mkdir -p $BUILDER_OUT_DIR
+  echo ":clean SUCCESS"
 }
 
 function build() {
   echo ":build"
   $BUILDER_JVM_PATH/bin/javac -d $BUILDER_OUT_DIR $BUILDER_SRC_FILE
+  echo ":build SUCCESS"
 }
 
 function run() {
   echo ":run"
   $BUILDER_JVM_PATH/bin/java -Dfile.encoding=UTF-8 -classpath $BUILDER_OUT_DIR $BUILDER_MAIN_CLASS
+  echo ":run SUCCESS"
 }
 
 while getopts "hcbr" opt; do
