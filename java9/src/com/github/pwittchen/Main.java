@@ -48,7 +48,7 @@ public class Main {
     new Pipe()
         .of(Stream.of(1, 2, 3, 4, 5, 6))
         .filter(o -> (Integer) o % 2 == 0)
-        .subscribe((Consumer) System.out::println);
+        .subscribe(System.out::println);
   }
 }
 
@@ -67,5 +67,9 @@ class Pipe implements Flow.Publisher {
 
   @Override public void subscribe(final Flow.Subscriber subscriber) {
     stream.forEach(subscriber::onNext);
+  }
+
+  public void subscribe(final Consumer consumer) {
+    subscribe((Flow.Subscriber) consumer);
   }
 }
