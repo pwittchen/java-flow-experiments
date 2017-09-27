@@ -26,7 +26,7 @@ Java 9 project
 --------------
 
 Inside `java9` directory I'm playing with native Java 9 Reactive Streams interfaces.
-In this setup, you need to have installed Java 9 from Oracle in the following path: `/usr/lib/jvm/java-9-oracle/` (it was tested under Ubuntu Linux 16.04 LTS). Please use `java9/builder.sh` script to clean, compile and run the application. Call `./builder.sh -h` for help. To clean, build and run project call `./builder.sh -cbr`. You can also import this project in IntelliJ IDEA and do the same through IntelliJ IDEA. I haven't used Gradle in this project, because it's not compatible with Java 9 yet.
+In this setup, you need to have installed Java 9 from Oracle in the following path: `/usr/lib/jvm/java-9-oracle/` (it was tested under Ubuntu Linux 16.04 LTS). Please use `java9/builder.sh` script to clean, compile and run the application. Call `./builder.sh -h` for help. To clean, build and run project call `./builder.sh -cbr`. You can also import this project in IntelliJ IDEA and do the same through IntelliJ IDEA. I haven't used Gradle in this project, because ~~it's not compatible with Java 9 yet~~ IntelliJ had a few problems with handling Java 9 Gradle project. Nevertheless, Java 9 works with Gradle from CLI.
 
 Git branches
 ------------
