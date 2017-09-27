@@ -45,8 +45,8 @@ public class Main {
       }
     });
 
-    new Pipe()
-        .of(Stream.of(1, 2, 3, 4, 5, 6))
+    Pipe.create()
+        .stream(Stream.of(1, 2, 3, 4, 5, 6))
         .filter(o -> (Integer) o % 2 == 0)
         .subscribe((Consumer) System.out::println);
   }
@@ -55,7 +55,11 @@ public class Main {
 class Pipe implements Flow.Publisher {
   private Stream stream;
 
-  Pipe of(final Stream stream) {
+  static Pipe create() {
+    return new Pipe();
+  }
+
+  Pipe stream(final Stream stream) {
     this.stream = stream;
     return this;
   }
