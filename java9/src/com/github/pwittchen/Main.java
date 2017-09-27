@@ -71,6 +71,7 @@ class Pipe implements Flow.Publisher {
 
   @Override public void subscribe(final Flow.Subscriber subscriber) {
     stream.forEach(subscriber::onNext);
+    subscriber.onComplete();
   }
 
   public void subscribe(final Consumer consumer) {
