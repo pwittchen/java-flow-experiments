@@ -32,19 +32,19 @@ function clean() {
   echo ":clean"
   rm -rf $BUILDER_OUT_DIR
   mkdir -p $BUILDER_OUT_DIR
-  echo ":clean SUCCESS"
+  echo ":clean DONE"
 }
 
 function build() {
   echo ":build"
   $BUILDER_JVM_PATH/bin/javac -d $BUILDER_OUT_DIR $BUILDER_SRC_FILE
-  echo ":build SUCCESS"
+  echo ":build DONE"
 }
 
 function run() {
   echo ":run"
   $BUILDER_JVM_PATH/bin/java -Dfile.encoding=UTF-8 -classpath $BUILDER_OUT_DIR $BUILDER_MAIN_CLASS
-  echo ":run SUCCESS"
+  echo ":run DONE"
 }
 
 while getopts "hcbr" opt; do
