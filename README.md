@@ -31,7 +31,7 @@ In this setup, you need to have installed Java 9 from Oracle in the following pa
 Git branches
 ------------
 - `master` branch contains code snippets from presentation and exepriments
-- `presentation` branch contains code snippets for Java 8 and empty project in Java 9 for live coding
+- `presentation` branch contains code snippets for Java 8 shown during the presentation and empty project in Java 9 for live coding
 
 References
 ----------
