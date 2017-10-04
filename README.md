@@ -8,7 +8,9 @@ during [JDD](http://jdd.org.pl) 2017 Conference on 03.10.2017 in Kraków, Poland
 Presentation slides
 -------------------
 
-Presentation slides are published at: https://speakerdeck.com/pwittchen/get-ready-for-java-dot-util-dot-concurrent-dot-flow
+Presentation slides are published at:
+
+https://speakerdeck.com/pwittchen/get-ready-for-java-dot-util-dot-concurrent-dot-flow
 
 Java 8 project
 --------------
