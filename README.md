@@ -12,6 +12,11 @@ Presentation slides are published at:
 
 https://speakerdeck.com/pwittchen/get-ready-for-java-dot-util-dot-concurrent-dot-flow
 
+My blog posts related to JDD conference
+------------------------------------
+- [JDD 2017 - recap](http://blog.wittchen.biz.pl/jdd-2017-recap/)
+- [JDD 2017 - an invitation](http://blog.wittchen.biz.pl/jdd-2017-get-ready-for-java-util-concurrent-flow/)
+
 Java 8 project
 --------------
 
