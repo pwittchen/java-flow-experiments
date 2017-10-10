@@ -1,0 +1,35 @@
+plugins {
+    id 'java'
+    id 'idea'
+    id 'application'
+}
+
+group 'com.github.pwittchen'
+version '0.0.1-SNAPSHOT'
+
+
+sourceCompatibility = 1.9
+version = '1.0'
+
+mainClassName = "com.github.pwittchen.Main"
+
+repositories {
+    mavenCentral()
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs 'src/main/java'
+        }
+    }
+
+    test {
+        java {
+            srcDir 'src/test/java'
+        }
+    }
+}
+
+dependencies {
+}
