@@ -31,6 +31,8 @@ sourceSets {
 }
 
 dependencies {
+  compile 'org.reactivestreams:reactive-streams:1.0.1'
+
   testCompile 'junit:junit:4.11'
   testCompile 'com.google.truth:truth:0.36'
   testCompile 'org.reactivestreams:reactive-streams-tck:1.0.1'
