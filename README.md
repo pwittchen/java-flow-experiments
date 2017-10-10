@@ -32,8 +32,11 @@ It contains only exploratory tests for different reactive libraries.
 Java 9 project
 --------------
 
-Inside `java9` directory I'm playing with native Java 9 Reactive Streams interfaces.
-In this setup, you need to have installed Java 9 from Oracle in the following path: `/usr/lib/jvm/java-9-oracle/` (it was tested under Ubuntu Linux 16.04 LTS). Please use `java9/builder.sh` script to clean, compile and run the application. Call `./builder.sh -h` for help. To clean, build and run project call `./builder.sh -cbr`. You can also import this project in IntelliJ IDEA and do the same through IntelliJ IDEA. I haven't used Gradle in this project, because ~~it's not compatible with Java 9 yet~~ IntelliJ had a few problems with handling Java 9 Gradle project. Nevertheless, Java 9 works with Gradle from CLI.
+Inside `java9` directory I'm playing with native Java 9 Reactive Streams interfaces. This project is based on Gradle. If you have problems with importing it into IntelliJ IDEA, choose Java 8 during import and switch Java version to 9 after import. In the case of problems with compilation, update `gradle.properties` file. 
+
+### Known issues
+
+There may be problems with executing unit tests with Java 9 and Gradle from CLI.
 
 Git branches
 ------------
