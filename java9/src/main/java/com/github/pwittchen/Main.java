@@ -2,7 +2,6 @@ package com.github.pwittchen;
 
 import java.util.concurrent.Flow;
 import java.util.function.Predicate;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 @FunctionalInterface interface Consumer extends Flow.Subscriber {
@@ -21,29 +20,6 @@ import java.util.stream.Stream;
 
 public class Main {
   public static void main(final String[] args) {
-
-    final Flow.Publisher<Integer> publisher = subscriber -> {
-      IntStream.range(1, 11).forEach(subscriber::onNext);
-      subscriber.onComplete();
-    };
-
-    publisher.subscribe(new Flow.Subscriber<>() {
-      @Override public void onSubscribe(final Flow.Subscription subscription) {
-        System.out.println("onSubscribe");
-      }
-
-      @Override public void onNext(final Integer item) {
-        System.out.println("onNext: ".concat(item.toString()));
-      }
-
-      @Override public void onError(final Throwable throwable) {
-        System.out.println("onError: ".concat(throwable.getMessage()));
-      }
-
-      @Override public void onComplete() {
-        System.out.println("onComplete");
-      }
-    });
 
     Pipe.create()
         .stream(Stream.of(1, 2, 3, 4, 5, 6))
@@ -74,7 +50,7 @@ class Pipe implements Flow.Publisher {
     subscriber.onComplete();
   }
 
-  public void subscribe(final Consumer consumer) {
+  void subscribe(final Consumer consumer) {
     subscribe((Flow.Subscriber) consumer);
   }
 }

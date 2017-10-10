@@ -1,0 +1,37 @@
+plugins {
+  id 'java'
+  id 'idea'
+  id 'application'
+}
+
+group 'com.github.pwittchen'
+version '0.0.1-SNAPSHOT'
+
+sourceCompatibility = 1.9
+version = '1.0'
+mainClassName = "com.github.pwittchen.Main"
+test.scanForTestClasses = false
+
+repositories {
+  mavenCentral()
+}
+
+sourceSets {
+  main {
+    java {
+      srcDirs 'src/main/java'
+    }
+  }
+
+  test {
+    java {
+      srcDir 'src/test/java'
+    }
+  }
+}
+
+dependencies {
+  testCompile 'junit:junit:4.11'
+  testCompile 'com.google.truth:truth:0.36'
+  testCompile 'org.reactivestreams:reactive-streams-tck:1.0.1'
+}
