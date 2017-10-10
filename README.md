@@ -41,7 +41,7 @@ There may be problems with executing unit tests with Java 9 and Gradle from CLI.
 Git branches
 ------------
 - `master` branch contains code snippets from presentation and exepriments
-- `presentation` (temporarily deleted due to config updates) branch contains code snippets for Java 8 shown during the presentation and empty project in Java 9 for live coding
+- `presentation` branch contains code snippets for Java 8 shown during the presentation and empty project in Java 9 for live coding
 
 References
 ----------
