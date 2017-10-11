@@ -34,6 +34,8 @@ Java 9 project
 
 Inside `java9` directory I'm playing with native Java 9 Reactive Streams interfaces. This project is based on Gradle. If you have problems with importing it into IntelliJ IDEA, choose Java 8 during import and switch Java version to 9 after import. In the case of problems with compilation, update `gradle.properties` file. 
 
+The example implementations are examples from the Reactive Streams examples, as implementing one-off by-hand implemented Publishers/Subscribers is actually pretty hard to pull off - due to the restrictive [Specification](https://github.com/reactive-streams/reactive-streams-jvm) which governs how these implementations much behave.
+
 ### Known issues
 
 There may be problems with executing unit tests with Java 9 and Gradle from CLI.
@@ -46,6 +48,9 @@ Git branches
 References
 ----------
 - [Reactive Streams](http://www.reactive-streams.org/)
+- [Reactive Streams Specification](https://github.com/reactive-streams/reactive-streams-jvm)
+- [Reactive Streams TCK](https://github.com/reactive-streams/reactive-streams-jvm/tree/master/tck) (which all implementations *must* pass)
+
 - [Reactive Manifesto](https://www.reactivemanifesto.org/)
 - [Java 9 Reactive Streams](http://www.baeldung.com/java-9-reactive-streams)
 - [Reactive Programming with JDK 9 Flow API](https://community.oracle.com/docs/DOC-1006738)
