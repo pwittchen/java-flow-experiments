@@ -46,6 +46,9 @@ Git branches
 References
 ----------
 - [Reactive Streams](http://www.reactive-streams.org/)
+- [Reactive Streams Specification](https://github.com/reactive-streams/reactive-streams-jvm)
+- [Reactive Streams TCK](https://github.com/reactive-streams/reactive-streams-jvm/tree/master/tck) (which all implementations *must* pass)
+
 - [Reactive Manifesto](https://www.reactivemanifesto.org/)
 - [Java 9 Reactive Streams](http://www.baeldung.com/java-9-reactive-streams)
 - [Reactive Programming with JDK 9 Flow API](https://community.oracle.com/docs/DOC-1006738)
