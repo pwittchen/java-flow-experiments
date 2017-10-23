@@ -32,7 +32,7 @@ It contains only exploratory tests for different reactive libraries.
 Java 9 project
 --------------
 
-Inside `java9` directory I'm playing with native Java 9 Reactive Streams interfaces. This project is based on Gradle. If you have problems with importing it into IntelliJ IDEA, choose Java 8 during import and switch Java version to 9 after import. In the case of problems with compilation, update `gradle.properties` file. 
+Inside `java9` directory I'm playing with native Java 9 Reactive Streams interfaces. This project is based on Gradle. If you have problems with importing it into IntelliJ IDEA, choose Java 8 during import and switch Java version to 9 after import. In the case of problems with compilation, update `gradle.properties` file. To build project without running tests type: `./gradlew build -x test". To run the compiled project, type: `./gradlew run`.
 
 The example implementations are examples from the Reactive Streams examples, as implementing one-off by-hand implemented Publishers/Subscribers is actually pretty hard to pull off - due to the restrictive [Specification](https://github.com/reactive-streams/reactive-streams-jvm) which governs how these implementations much behave.
 
