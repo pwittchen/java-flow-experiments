@@ -1,43 +1,42 @@
-group 'com.github.pwittchen'
-version '1.0-SNAPSHOT'
-
-apply plugin: 'java'
-apply plugin: 'idea'
-apply plugin: 'application'
+plugins {
+  id 'java'
+  id 'idea'
+  id 'application'
+}
 
 sourceCompatibility = 1.8
 
 mainClassName = "com.github.pwittchen.java.flow.experiments.Main"
 
 sourceSets {
-    main {
-        java {
-            srcDirs 'src/main/java'
-        }
+  main {
+    java {
+      srcDirs 'src/main/java'
     }
+  }
 
-    test {
-        java {
-            srcDir 'src/test/java'
-        }
+  test {
+    java {
+      srcDir 'src/test/java'
     }
+  }
 }
 
 repositories {
-    mavenCentral()
+  mavenCentral()
 }
 
 dependencies {
-    implementation 'org.reactivestreams:reactive-streams:1.0.1-RC2'
-    implementation 'io.reactivex.rxjava2:rxjava:2.1.2'
-    compile 'io.projectreactor:reactor-core:3.0.7.RELEASE'
-    compile 'com.typesafe.akka:akka-stream_2.12:2.4.20'
+  implementation 'org.reactivestreams:reactive-streams:1.0.1-RC2'
+  implementation 'io.reactivex.rxjava2:rxjava:2.1.2'
+  implementation 'io.projectreactor:reactor-core:3.0.7.RELEASE'
+  implementation 'com.typesafe.akka:akka-stream_2.12:2.4.20'
 
-    testCompile 'junit:junit:4.12'
-    testCompile 'com.google.truth:truth:0.34'
-    testCompile 'org.mockito:mockito-core:2.8.47'
+  testImplementation 'junit:junit:4.12'
+  testImplementation 'com.google.truth:truth:0.34'
+  testImplementation 'org.mockito:mockito-core:2.8.47'
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '4.2.1'
+  gradleVersion = '4.2.1'
 }
