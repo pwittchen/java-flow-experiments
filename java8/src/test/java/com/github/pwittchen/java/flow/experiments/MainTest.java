@@ -24,8 +24,6 @@ public class MainTest {
             .map(this::simulateIntenseCalculation))
         .compose(applyBenchmark())
         .subscribe(this::printNumberWithThreadInfo);
-
-    sleepForAWhile();
   }
 
   @Test
@@ -42,8 +40,6 @@ public class MainTest {
             .map(this::simulateIntenseCalculation))
         .compose(applyBenchmark())
         .subscribe(this::printNumberWithThreadInfo);
-
-    sleepForAWhile();
   }
 
   @Test
@@ -83,7 +79,8 @@ public class MainTest {
   }
 
   private void sleepForAWhile() {
-    sleep(10000);
+    sleep(20_000);
+    System.out.println("finished sleeping");
   }
 
   private void sleep(final long millis) {
