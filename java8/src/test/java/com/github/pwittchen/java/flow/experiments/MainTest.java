@@ -306,6 +306,16 @@ public class MainTest {
         .subscribe(integer -> printNumberWithThreadInfo("received", integer));
   }
 
+  @Test
+  public void shouldTestBuffer() {
+    Observable
+        .range(1, 9)
+        .doFinally(this::sleepForAWhile)
+        .delay(50, TimeUnit.MILLISECONDS)
+        .buffer(10, TimeUnit.MILLISECONDS, 2)
+        .subscribe(batchOfIntegers -> System.out.println(batchOfIntegers.toString()));
+  }
+
   private void printNumberWithThreadInfo(final String message, final Integer number) {
     final String format = message.concat(" %d %s on thread %s");
     final String now = LocalTime.now().toString();
